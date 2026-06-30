@@ -2,6 +2,7 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Config = require(ReplicatedStorage.Config)
+local DataService = require(script.Parent.DataService)
 
 Players.PlayerAdded:Connect(function(player)
 
@@ -11,7 +12,15 @@ Players.PlayerAdded:Connect(function(player)
 
 	local Money = Instance.new("IntValue")
 	Money.Name = "Money"
-	Money.Value = Config.StartMoney
+
+	local savedMoney = DataService.LoadMoney(player)
+
+	if savedMoney ~= nil then
+		Money.Value = savedMoney
+	else
+		Money.Value = Config.StartMoney
+	end
+
 	Money.Parent = leaderstats
 
 end)
